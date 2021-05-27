@@ -1,0 +1,37 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>{{title}}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-item>
+      <ion-label position="floating">Username</ion-label>
+      <ion-input type="text" [(ngModel)]="user.username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Password</ion-label>
+      <ion-input type="text" [(ngModel)]="password"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input type="email" [(ngModel)]="user.email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Role</ion-label>
+      <ion-select [(ngModel)]="user.role">
+        <ion-select-option value="Viewer">Viewer</ion-select-option>
+        <ion-select-option value="Editor">Editor</ion-select-option>
+        <ion-select-option value="Admin">Admin</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button *ngIf="isNew" class="ion-color-primary" (click)="addNew()">
+      <ion-icon slot="start" name="add-circle"></ion-icon> Add
+    </ion-button>
+    <ion-button *ngIf="isNew" class="ion-color-danger ion-float-right" (click)="cancel()">
+      <ion-icon slot="start" name="close"></ion-icon> Cancel
+    </ion-button>
+    <ion-button *ngIf="!isNew" class="ion-color-primary" (click)="save()">
+      <ion-icon slot="start" name="save"></ion-icon> Save
+    </ion-button>
+  </ion-card-content>
+</ion-card>

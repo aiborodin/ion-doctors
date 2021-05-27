@@ -1,0 +1,70 @@
+<ion-header> <!--[translucent]="true"-->
+  <ion-toolbar>
+    <ion-title>
+      Company X
+    </ion-title>
+    <ion-buttons slot="end">
+      ({{user.username}})
+      <ion-button (click)="logOut()">
+        <ion-icon slot="icon-only" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content> <!--[fullscreen]="true"-->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Doctors</ion-label>
+      <ion-button *ngIf="user.role !== role.VIEWER"
+                  shape="round" fill="outline"
+                  color="success" (click)="showNew=true">
+        <ion-icon slot="start" name="add"></ion-icon>Add
+      </ion-button>
+    </ion-list-header>
+
+    <app-doctor *ngIf="showNew" [isNew]="true"
+                (addDoc)="addDoctor($event)"
+                (cancelAddingDoc)="showNew=false">
+    </app-doctor>
+
+    <div *ngFor="let doctor of doctors; let i = index">
+      <ion-item-sliding>
+        <ion-item-options side="start" *ngIf="user.role !== role.VIEWER">
+          <ion-item-option color="primary" (click)="showEdit=i">
+            <ion-icon name="create"></ion-icon>
+            Change
+          </ion-item-option>
+          <ion-item-option color="danger" (click)="delete(doctor.code)">
+            <ion-icon name="trash"></ion-icon>
+            Delete
+          </ion-item-option>
+        </ion-item-options>
+        <ion-item (click)="showEdit=-1">
+          <ion-icon name="people" slot="start"></ion-icon>
+          <ion-label>{{doctor.code}}</ion-label>
+          <ion-note slot="end">{{doctor.surname}}</ion-note>
+        </ion-item>
+<!--        <ion-item-options side="end">-->
+<!--          <ion-item-option color="secondary"-->
+<!--                           [routerLink]="['/employees/'+doctor.code, {depName: doctor.surname}]"-->
+<!--                           routerDirection="forward">-->
+<!--            <ion-icon name="reorder-three-outline"></ion-icon>-->
+<!--            Employees-->
+<!--          </ion-item-option>-->
+<!--        </ion-item-options>-->
+      </ion-item-sliding>
+      <app-doctor *ngIf="showEdit==i" [isNew]="false"
+                  [doctor]="doctor">
+      </app-doctor>
+    </div>
+  </ion-list>
+  <section style="padding-top: 30px">
+    <ion-button color="primary" class="ion-float-left" (click)="goodTransaction()">
+      <ion-icon name="checkmark-circle-outline"></ion-icon> Good Transaction
+    </ion-button>
+    <ion-button color="primary" class="ion-float-right" (click)="badTransaction()">
+      <ion-icon name="close-outline"></ion-icon> Failing Transaction
+    </ion-button>
+  </section>
+</ion-content>
